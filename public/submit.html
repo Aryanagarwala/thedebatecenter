@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <script src = standard.js></script>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Submit</title>
+            <style>
+                #submit{
+                    margin: 50px auto auto auto;
+                    width: 553px;
+                    display: block;
+                }
+                form{
+                    display: block;
+                    height: 575px;
+                    width: 1000px;
+                    margin: 5px auto auto auto;
+                    text-align: center;
+                }
+                .in, textarea{
+                    font-size: 20px;
+                    left: 400px;
+                    display: block;
+                    width: 99%;
+                }
+                textarea{
+                    height:50%;
+                }
+                .in{
+                    text-align: center;
+                    border-radius: 10px;
+                }
+                label{
+                    font-size: 40px;
+                    display: block;
+                }
+                #sbutt{
+                    display: block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 10px;
+                    height: 40px;
+                    width: 200px;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin: 5px auto auto auto;
+                    
+                }
+                #sbutt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+            </style>
+        </head>
+        <body onload = "load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <img id = "submit" src = "submit.png"/>
+            <form onsubmit = "return validatearticleform()" class = "transb" method="post" id = "form">
+                <label>Title:</label>    
+                    <input id = "title" class = "in" type = "text" name = "title" value = "" required/>
+                <label>Thesis:</label> 
+                    <input id = "hypothesis" class = "in" type = "text" name = "hypothesis" value = "" required/>
+                <label>Content:</label>    
+                    <textarea id = "arg" class = "in" name="arg" cols="40" rows="5" required></textarea>
+                <input id = "sbutt" type="submit" value="Send">
+            </form>  
+        </body>
+        <script>
+            function validatearticleform(){
+                if(localStorage.getItem('logged')){
+                    document.getElementById("form").setAttribute("action","sub?user=" + localStorage.getItem('user'));
+                    get('checksub?title=' + document.getElementById("title").value, 'Text', function callback(xhr){
+                        if(xhr.response==='1'){
+                            window.alert("An article with this title already exists, please rename it.");
+                        }
+                        else{
+                            document.getElementById("form").submit();
+                        }
+                    });
+                }
+                else{
+                    window.alert('You must be logged in to submit an article');
+                    return false;
+                }
+                return false;
+            }
+            function load(){
+                    if(localStorage.getItem("logged")){
+                        document.getElementById("login").style.display = "none";
+                        document.getElementById("userh").style.display = "inline-block";
+                        document.getElementById("userh").innerHTML = localStorage.getItem("user").toUpperCase();
+                    }
+                }
+        </script>
+    </html>

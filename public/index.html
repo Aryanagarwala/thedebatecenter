@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <script src = "standard.js"></script>
+            <style>
+                .cont{
+                    margin-bottom: 1px;
+                    
+                }
+                .cont p, .cont h2{
+                    text-align: center;
+                }
+                .cont h2{
+                    font-size: 40px;
+                    font-weight: 500;
+                    margin-bottom: 0;
+                }
+                
+                .cont ol, .cont p{
+                    font-size: 20px;
+                    margin: 5px 0 0 0;
+                    padding-bottom: 17px;
+                }
+                #content{
+                    margin-bottom: 35px;
+                }
+                
+                #tag{
+                    margin-bottom: 1px;
+                    font-size: 40px;
+                    font-weight: 500;
+                }
+                #title{
+                    margin-top: 1px;
+                    font-size: 60px;
+                    text-decoration: overline;
+                    text-align: left;
+                }
+                .titlearea{
+                    position:sticky;
+                    max-width: 567px;
+                    min-width: 567px;
+                    width: 567px;
+                    margin: 30vh auto 120vh auto;
+                }
+                #inner{
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 91%;
+                }
+                .txt{
+                    margin-right: 3px;
+                    margin-left: 3px;
+                    width: 98%;
+                }
+                
+            </style>
+            <title>The Debate Center</title>
+        </head>
+        <body onload = "load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <div class = "trans titlearea">
+                <div id = "inner">
+                    <p id = "tag">You have the floor</p>
+                    <p id = "title">The Debate Center</p>
+                </div>
+            </div>
+            <div id = "content">
+            <div  class = "trans cont">
+                <h2 class = "txt">What is 'The Debate Center'?</h2>
+                <p class = "txt">Quite simply, 'The Debate Center' is a tool for accelerating socio-political change. Democracy in the United States of America and France required the American and French revolution respectively, accepting the heliocentric model of the universe first required Galileo to be imprisoned by the Church, and Martin Luther's writing, '95 theses', that led the reformation of the church was banned and he was declared a 'convicted heretic'. Great changes like these have always been difficult, as they should be, but having to fear for your safety (social, physical, financial) while engaging in a debate is clearly problematic. Therefore, The Debate Center allows people to express what they believe in easily and anonymously. More importantly, it allows these beliefs to be challenged via a debate section that ends with a clear resolution. 
+                </p>
+            </div>
+            <div class = "trans cont">
+                <h2 class = "txt">Won't this website hamper social progress by allowing bad ideas to be expressed?</h2>
+                <p class = "txt">No. Ideas that aren't easily accepted by us aren't necessarily wrong. What we consider to be right and wrong can and does change very easily. Not so long ago, civil rights for black people was a 'bad idea', voting rights for women was a 'bad idea'. As society evolved, so did these ideas. Like the oppression of these people, there are many other disgusting ideas that are present in society today and need to be spoken against. Although we may not understand the purpose and the importance of these ideas, it is important that they may be expressed. </p>
+            </div>
+            </div>
+            <script>
+                function load(){
+                    localStorage.setItem("id", 1);
+                    hidelogin();
+                }
+            </script>
+            
+        </body>
+    </html>

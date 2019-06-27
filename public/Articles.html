@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <script src=standard.js></script>
+            <title>Articles</title>
+            <style>
+                .title h1{
+                    font-family: Avenir;
+                    text-align: center;
+                }
+                .sidebar{
+                    display: inline-block;
+                    visibility: hidden;
+                    width:0;
+                    border-radius: 1.215vh;
+                    float: left;
+                }
+                .sidebar h2{
+                    border-bottom: 0.364vh;
+                    border-bottom-width: : medium;
+                    border-bottom-color: black;
+                    border-bottom-style: solid;
+                }
+                .contain{
+                    border-radius: 1.215vh;
+                    display: block;
+                    width: 100%;
+                    float: right;
+                    padding-bottom: 30px;
+                }
+                .in{
+                    width: 83%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    font-size: 20px;
+                    -webkit-appearance: none;
+                    border-radius: 1.215vh;
+                }
+                h2{
+                    text-align: center;
+                    font-size:30px;
+                    font-weight: 500;
+                }
+                #Listcontainer{
+                    height: 60.753vh;
+                    margin: 0;
+                    overflow: scroll;
+                    overflow-x: hidden;
+                }
+                #Listcontainer li{
+                    font-size: 25px;
+                    margin: 0.121vh;
+                    width: 90%;
+                    list-style-position: inside;
+                    border-top-style: solid;
+                }
+                #Listcontainer li:hover{
+                    background-color: rgba(0,0,0,0.7);
+                    color: white;
+                    backface-visibility: visible;
+                    overflow: visible;
+                }
+                #hypothesis{
+                    font-size: 25px;
+                    text-align: center;
+                }
+                #argument{
+                    overflow: scroll;
+                    height: 60vh;
+                    overflow-x: hidden;
+                    margin-left: 40px;
+                }
+                #argument p{
+                    font-size: 20px;
+                    text-indent: 100px;
+                }
+                #article{
+                    width: 99%;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                ol{
+                    margin: 1.215vh 0 1.215vh 0;
+                }
+                .butt{
+                    display: inline-block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 1.215vh;
+                    height: 5%;
+                    width: 20%;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin-top: 2.23vh;
+                    
+                }
+                .butt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                @media screen and (orientation: portrait) {
+                    #argument{
+                        height: 70vh;
+                    }
+                    .title{
+                        visibility: hidden;
+                    }
+                }
+            </style>
+        <body onload="load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a href = "submit.html">SUBMIT</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <div class = "trans title">
+                <h2>Articles</h2>
+            </div>
+            <div id = "hey" class = "trans sidebar">
+                <h2>Explore</h2>
+                <input class = "in" placeholder="Search" type = "search" height="40px" onkeyup="search()" id = "myInput">
+                <div id = "Listcontainer">
+                    <ol id = "list">
+                    </ol>
+                </div>
+            </div>
+            <div class = "trans contain" id = "mydiv">
+                <div id = "article">
+                <div>
+                    <h2 id = "title"></h2>
+                </div>
+                <div>
+                    <p id= "hypothesis"></p>
+                </div>
+                <div id= "argument">
+                </div>
+                <input type="button" value="Like: " id = "likes" class = "butt" onclick="like()">
+                <input type="button" id = "debbutt" value="Debate!" class = "butt" onclick = "debate()">
+                <input type="button" value="Explore" class = "butt" id = "explore" onclick = "exp()">
+                <input type="button" value="Delete" class = "butt" id = "delete" onclick = "deleteart()">
+                </div>
+            </div>
+        </body>
+    </html>
+        <script>
+                //run on debate button
+                function debate(){
+                    window.location.href = "\debate.html";
+                }
+                //run load() on page load
+                function load(){
+                    document.getElementById("likes").style.width = "0";
+                        document.getElementById("likes").style.visibility = "hidden";
+                        document.getElementById("debbutt").style.width = "0";
+                        document.getElementById("debbutt").style.visibility = "hidden";
+                
+                    localStorage.setItem("open", '0');
+                    hidelogin();
+                    get('load', 'Text', function callback(xhr){
+                        const result = xhr.responseText;
+                        document.getElementById("list").innerHTML=result;
+                        document.getElementById("title").innerHTML = "The Debate Center";
+                        document.getElementById("hypothesis").innerHTML = "Welcome";
+                        document.getElementById("argument").innerHTML = "<p> <br>Hi, welcome to The Debate Center!<br><br>In order to get started, click on \"explore\" at the bottom and find an article in the list on the left.<br><br>Articles are pre-sorted according to when they were added. <br><br>You can search for specific articles through the search bar.<br><br>In order to debate an article, click on the debate button down below.<br><br>If you would like to add your own content, click on the submit button above.<br><br>Please be responsible with your interactions on this website.<br>With great power, comes great responsibility.<br><br><br>Aryan Agarwala</p>";
+                        document.getElementById("delete").style.visibility = "hidden";
+                    });
+                }
+                //takes the id of the article as input and renders the article 
+                function renderarticle(id){
+                    localStorage.setItem("id1", document.getElementById(id).getAttribute("index"));
+                    localStorage.setItem("id", id);
+                    get('render?ID='+ document.getElementById(id).getAttribute("index") + '&user=' + localStorage.getItem("user"), 'JSON', function callback(xhr){
+                        
+                            //recreating like and debate button
+                            document.getElementById("likes").style.width = "20%";
+                            document.getElementById("likes").style.visibility = "visible";
+                            document.getElementById("debbutt").style.width = "20%";
+                            document.getElementById("debbutt").style.visibility = "visible";
+                        
+                            const result = JSON.parse(xhr.response);
+                            
+                            //recreating article
+                            document.getElementById("hypothesis").innerHTML = result.hyp;
+                            document.getElementById("argument").innerHTML = "<p>" + result.arg + "</p><p>Written by: <span id = \"user\">" + result.user + "</span></p>";
+                            //var obj= {likes: [], fordebate: [], againstdebate: [], forlikes: 0, againstlikes: 0};
+                            document.getElementById("title").innerHTML = result.title;
+                        
+                            //recreating delete option
+                            if(result.user === localStorage.getItem("user")){
+                                document.getElementById("delete").style.visibility = "visible";
+                            }
+                            else{
+                                document.getElementById("delete").style.visibility = "hidden";
+                            }
+                            
+                            if(result.liked === 1){
+                                document.getElementById("likes").value = "Unlike: " + result.likes;
+                                localStorage.setItem("liked", '1');
+                            }
+                            else{
+                                document.getElementById("likes").value = "Like: " + result.likes;
+                                localStorage.setItem("liked", '0"');
+                            }
+                        document.getElementsByClassName("contain").style.height="auto";
+                        });
+                }
+                //when like button is clicked
+                function like(){
+                    if(localStorage.getItem("logged")==='1'){
+                        get('like?ID='+ document.getElementById(localStorage.getItem('id')).getAttribute("index") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                        });
+                        var str = document.getElementById("likes").value;
+                        if(localStorage.getItem("liked")==='0'){
+                            document.getElementById("likes").value = "Unlike: " + (parseInt(str.substr(5, str.length))+1);
+                            localStorage.setItem("liked", '1');
+                        }
+                        else{
+                            localStorage.setItem("liked", '0');
+                            document.getElementById("likes").value = "Like: " + (parseInt(str.substr(7, str.length))-1);
+                        }
+    
+                    }
+                    else{
+                        window.alert("Please log in/create an account in order to like this article");
+                    }
+                }
+                //When delete button is clicked
+                function deleteart(){
+                    get('delete?ID=' + document.getElementById(localStorage.getItem('id')).getAttribute("index") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                        document.location.reload();
+                    });
+                }
+                //Search alogrithm
+                function search(){
+                    var input, filter, ul, li, a, i;
+                    input = document.getElementById('myInput');
+                    filter = input.value.toUpperCase();
+                    ol = document.getElementById("list");
+                    li = ol.getElementsByTagName('li');
+
+                    // Loop through all list items, and hide those who don't match the search query
+                    for (i = 0; i < li.length; i++) {
+                        if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            li[i].style.display = "";
+                        } else {
+                            li[i].style.display = "none";
+                        }
+                    }
+                }
+                function exp(){
+                    if(localStorage.getItem("open")==='0'){
+                        var result = document.getElementById("mydiv").scrollHeight;//height + padding
+                        document.getElementsByClassName("contain")[0].style.width = "70%";
+                        document.getElementsByClassName("sidebar")[0].style.width = "28%";
+                        document.getElementsByClassName("sidebar")[0].style.visibility = "visible";
+                        document.getElementsByClassName("sidebar")[0].style.height = result + "px";
+                        document.getElementsByClassName("contain")[0].style.height = (result-30) + "px";
+                        localStorage.setItem("open", '1');
+                
+                        
+                    }
+                    else{
+                        document.getElementsByClassName("contain")[0].style.width = "100%";
+                        document.getElementsByClassName("sidebar")[0].style.width = "0";
+                        document.getElementsByClassName("sidebar")[0].style.visibility = "hidden";
+                        localStorage.setItem("open", '0');
+                    }
+                }
+            </script>

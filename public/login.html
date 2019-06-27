@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Log in</title>
+            <script src = "standard.js"></script>
+            <style>
+                #container{
+                    margin-top: 150px;
+                    width: 40%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    min-width: 320px;
+                    padding-bottom: 10px;
+                }
+                #user{
+                    font-size: 20px;
+                    border-radius: 10px;
+                    display: block;
+                    margin: auto auto 5px auto;
+                    width: 300px;
+                }
+                #pass{
+                    font-size: 20px;
+                    border-radius: 10px;
+                    display:block;
+                    margin: 5px auto 0 auto;
+                    width: 300px;
+                }
+                form{
+                }
+                #sbutt{
+                    display: block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 20px;
+                    height: 35px;
+                    width: 30%;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin: 3px auto auto auto;
+                    
+                }
+                #sbutt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                .title{
+                    margin-top: 100px;
+                    text-align: center;
+                    height: 75px;
+                    font-weight: 100;
+                    font-size: 55px;
+                }
+                #name{
+                    text-align: center;
+                    width: 10%;
+                }
+                span{
+                    margin-left: 50px;
+                    margin-top: 10px;
+                }
+                a{
+                    color: white;
+                }
+                #forgotpass{
+                    margin-top: 0px;;
+                }
+                p{
+                    text-align: center;
+                    margin-bottom: 0;
+                }
+                @media screen and (orientation: portrait) {
+                    #container{
+                        width: 80%;
+                    }
+                    #sbutt{
+                        font-size: 30px;
+                        height: 3vh;
+                    }
+                    body{
+                        font-size: 20px;
+                    }
+                    p{
+                        font-size: 30px;
+                    }
+                    #user{
+                        width: 60%;
+                        font-size: 30px;
+                    }
+                    #pass{
+                        width: 60%;
+                        font-size: 30px;
+                    }
+                }
+
+            </style>
+        </head>
+        <body>
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a href = "signup.html">SIGN UP</a>
+            </div>
+            <h1 class = "trans title">Welcome back.</h1>
+            <div  class = "trans" id = "container">
+                <br>
+                <form id = "login" onsubmit="return validateForm()" method = "post" action="login">
+                    <input placeholder="Username" id = "user" type="text" name = "user" required/>
+                    <input placeholder="Password" id = "pass" type="password" name = "pass" required/>
+                    <br>
+                    <input id = "sbutt" type = "submit" value = "Log in">
+                </form>
+                <p>Don't have an account? <a href = "signup.html">Sign up</a></p><p id = "forgotpass"><a href="forgotpass.html">Forgot Password?</a></p>
+            </div>
+        </body>
+        <script>
+            function validateForm(){
+                var usr = document.getElementById("user").value;
+                var pass = document.getElementById("pass").value;
+                var check = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_ ';
+                localStorage.setItem('user', usr);
+                localStorage.setItem('logged', 0);
+                for(var i=0;i<usr.length;i++){
+                    if(check.indexOf(usr.toUpperCase().charAt(i))>-1){
+                    }
+                    else{
+                        window.alert("No such user exists");
+                        return false;
+                    }
+                }
+                if(pass.length<8){
+                    alert("Incorrect Password");  
+                    return false;
+                }
+                get('validate?name=' + usr + '&email=notavailable', 'Text', function callback(xhr){
+                    if(xhr.response === 'eu' || xhr.response === 'ee'){
+                        document.getElementById("login").submit();
+                    }
+                    else{
+                        window.alert("No such user exists");
+                        return false;
+                    }
+                });
+                return false;
+            }
+        </script>
+    </html>

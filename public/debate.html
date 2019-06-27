@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <script src = standard.js></script>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Debate</title>
+            <style>
+                .in{
+                    width: 83%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    font-size: 20px;
+                    -webkit-appearance: none;
+                    border-radius: 1.215vh;
+                }
+                h2{
+                    text-align: center;
+                    font-size:30px;
+                    font-weight: 500;
+                }
+                .title h2{
+                    font-family: Avenir;
+                    text-align: center;
+                    margin-top: 3.64vh;
+                }
+                .sidebar{
+                    display: inline-block;
+                    width:30%;
+                    border-radius: 1.215vh;
+                    height: 50vh;
+                    float: left;
+                }
+                .sidebar h2{
+                    border-bottom: 0.364vh;
+                    border-bottom-width: : medium;
+                    border-bottom-color: black;
+                    border-bottom-style: solid;
+                }
+                .tablecontainer{
+                    border-radius: 1.215vh;
+                    display: block;
+                    width: 100%;
+                    float: right;
+                }
+                #debatetablecontainer{
+                    height: 39.14vh;
+                    overflow: scroll;
+                }
+                #Listcontainer{
+                    height: 25.753vh;
+                    margin: 0;
+                    overflow: scroll;
+                    overflow-x: hidden;
+                }
+                #Listcontainer li{
+                    font-size: 25px;
+                    margin: 0.121vh;
+                    width: 90%;
+                    list-style-position: inside;
+                    border-top-style: solid;
+                }
+                #Listcontainer li:hover{
+                    background-color: rgba(0,0,0,0.7);
+                    color: white;
+                    backface-visibility: visible;
+                    overflow: visible;
+                }
+                .butt{
+                    display: inline-block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 1.215vh;
+                    height: 5%;
+                    width: 20vw;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin-top: 2.23vh;
+                    
+                }
+                .butt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                table{
+                    width: 100%;
+                    min-width: 100%;
+                    overflow: scroll;
+                    font-size: 20px;
+                }
+                label{
+                    width: 500px;
+                    text-align: center;
+                    display: block;
+                    font-size: 30px;
+                    margin: 2px auto 0.5vh auto;
+                }
+                #arg{
+                    font-size: 20px;
+                    height: 20vh;
+                    margin: 0.5vh auto 1vh auto;
+                }
+                #debateform{
+                    margin-top: 54.64vh;
+                    display: block;
+                }
+                #buttcontain{
+                    width = 40%;
+                    margin-left: 30vw;
+                    margin-right: auto;
+                }
+                #headerstable{
+                    width:80%;
+                }
+            </style>
+        </head>
+        <body onload = "load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <div class = "trans title">
+                <h2>Debate: <span id = "title"></span></h2>
+            </div>
+            <div class = "trans tablecontainer">
+                
+                <table class = "trans" id = "headerstable">
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="40%">
+                    <tr>
+                        <th class = "user">User</th>
+                        <th class = "side">For</th>
+                        <th class = "user">User</th>
+                        <th class = "side">Against</th>
+                    </tr>
+                </table>
+                
+                <div id = "debatetablecontainer">
+                    <table border = "1" class = "trans" id = "debatetable">
+                        <col width="50">
+                        <col width="50">
+                    </table>
+                </div>
+                
+                <table class = "trans" id = "buttonstable">
+                    <col width="50">
+                    <col width="50">
+                    <tr>
+                        <th><input type="button" value="Like" id = "likesfor" class = "butt" onclick="like(1)"></th>
+                        <th><input type="button" value="Like" id = "likesagainst" class = "butt" onclick = "like(0)"></th>
+                    </tr>
+                </table>
+                
+            </div>
+            
+            <form id = "debateform" onsubmit = "return validatedebate()" method="post" class = "trans">
+                <label>Debating: <span id = "side">for</span></label>    
+                    <textarea id = "arg" class = "trans in" name="arg" cols="40" rows="5" required></textarea>
+                <div id = "buttcontain">
+                <input id = "changeside" class = "butt" onclick="changesides()" type = "button" value="Change side">
+                <input id = "submitbutt" class = "butt" type="submit" value="Submit">
+                </div>
+            </form>
+            
+            <script>
+                
+                //run on page load
+                function load(){
+                    hidelogin();
+                    renderarticle(localStorage.getItem("id1"));
+                }
+                
+                //change side while debating
+                function changesides(){
+                    if(document.getElementById("side").innerHTML === "for")
+                        document.getElementById("side").innerHTML = "against";
+                    else
+                        document.getElementById("side").innerHTML = "for";
+                }
+                
+                //takes the id of the article as input and renders the debate 
+                function renderarticle(id){
+                    get('renderdebate?&ID='+ id + '&user=' + localStorage.getItem("user"), 'JSON', function callback(xhr){
+                        const result = JSON.parse(xhr.response);
+                        localStorage.setItem("side", result.side);
+                        text = "<col width=\"10%\"><col width=\"40%\"><col width=\"10%\"><col width=\"40%\">";
+                        for(var i = 0;i<Math.max(result.fordeb.length, result.againstdeb.length);i++){
+                            debfor = result.fordeb[i];
+                            debagainst = result.againstdeb[i];
+                            text+="<tr>";
+                            if(debfor){
+                                text+="<td>" + debfor[1] + "</td>";
+                                text+="<td>" + debfor[0] + "</td>";
+                            }
+                            else{
+                                text+="<td>" + "" + "</td>";
+                                text+="<td>" + "" + "</td>";
+                            }
+                            if(debagainst){
+                                text+="<td>" + debagainst[1] + "</td>";
+                                text+="<td>" + debagainst[0] + "</td>";
+                            }
+                            else{
+                                text+="<td>" + "" + "</td>";
+                                text+="<td>" + "" + "</td>";
+                            }
+                            text+="</tr>";
+                        }
+                        document.getElementById("debatetable").innerHTML = text;
+                        document.getElementById("likesfor").value = "Like: " + result.likesfor;
+                        document.getElementById("likesagainst").value = "Like: " + result.likesagainst;
+                        
+                        if(result.liked === 1){
+                            document.getElementById("likesfor").value = "Unlike: " + result.likesfor;
+                            document.getElementById("likesfor").setAttribute("onclick","unlike(1)");
+                            localStorage.setItem("liked", "1");
+                        }
+                        else if(result.liked === 2){
+                            document.getElementById("likesagainst").value = "Unlike: " + result.likesagainst;
+                            document.getElementById("likesagainst").setAttribute("onclick","unlike(0)");
+                            localStorage.setItem("liked", "1");
+                        }
+                        else{
+                            localStorage.setItem("liked", "0");
+                        }
+                    });
+                }
+                
+                //validate debate
+                function validatedebate(){
+                var user;
+                var side = document.getElementById("side").innerHTML;
+                var id = localStorage.getItem("id1");
+                if(checklogged()){
+                    user = localStorage.getItem('user');
+                }
+                else{
+                    window.alert('You must be logged in to debate an article');
+                    return false;
+                }
+                if(localStorage.getItem("side")!="0"){
+                    if(localStorage.getItem("side")!=side){
+                        window.alert("Sorry, you have already debated for the other side!");
+                       return false;
+                    }
+                }
+                else{
+                    document.getElementById("debateform").setAttribute("action","deb?user=" + user + '&side=' + side + '&ID=' + id);
+                    document.getElementById("form").submit();
+                }
+                return false;
+                }
+                
+                //like a debate
+                function like(a){
+                    if(localStorage.getItem("logged")==='1'){
+                        if(localStorage.getItem("liked")==='1'){
+                            window.alert("You have already liked a side");
+                        }
+                        else{
+                            if(a === 1){
+                                get('likedebate?side=for&ID=' + localStorage.getItem("id1") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                                    var str = document.getElementById("likesfor").value;
+                                    var num = parseInt(str.substr(6, str.length));
+                                    num++;
+                                    document.getElementById("likesfor").value = "Unlike: " + num;
+                                    document.getElementById("likesfor").setAttribute("onclick","unlike(1)");
+                                    localStorage.setItem("liked", "1");
+                                });
+                            }
+                            else{
+                                get('likedebate?side=against&ID=' + localStorage.getItem("id1") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                                    var str = document.getElementById("likesagainst").value;
+                                    var num = parseInt(str.substr(6, str.length));
+                                    num++;
+                                    document.getElementById("likesagainst").value = "Unlike: " + num;
+                                    document.getElementById("likesagainst").setAttribute("onclick","unlike(0)");
+                                    localStorage.setItem("liked", "1");
+                                });
+                            }
+                        }
+                    }
+                    else{
+                        window.alert("You must log in/create an account first");
+                    }
+                }
+                
+                //unlike a debate
+                function unlike(a){
+                    if(a === 1){
+                        get('unlikedebate?side=for&ID=' + localStorage.getItem("id1") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                            var str = document.getElementById("likesfor").value;
+                            var num = parseInt(str.substr(8, str.length));
+                            num--;
+                            document.getElementById("likesfor").value = "Like: " + num;
+                            localStorage.setItem("liked", "0");
+                            document.getElementById("likesfor").setAttribute("onclick","like(1)");
+                        }); 
+                    }
+                    else{
+                        get('unlikedebate?side=against&ID=' + localStorage.getItem("id1") + '&user=' + localStorage.getItem("user"), 'Text', function callback(xhr){
+                            var str = document.getElementById("likesagainst").value;
+                            var num = parseInt(str.substr(8, str.length));
+                            num--;
+                            document.getElementById("likesagainst").value = "Like: " + num;
+                            localStorage.setItem("liked", "0");
+                            document.getElementById("likesagainst").setAttribute("onclick","like(0)");
+                        });
+                    }
+                }
+            </script> 
+        </body>
+    </html>

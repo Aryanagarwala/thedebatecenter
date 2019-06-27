@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Sign Up</title>
+            <style>
+                body{
+                    min-width: 900px;
+                }
+                #container{
+                    margin-top: 150px;
+                    width: 40%;
+                    min-width: 400px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-bottom: 10px;
+                }
+                .inptext{
+                    font-size: 20px;
+                    border-radius: 10px;
+                    display: block;
+                    margin: auto auto 4px auto;
+                    width: 70%;
+                    margin-bottom: 4px;
+                }
+                form{
+                }
+                #sbutt{
+                    display: block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 20px;
+                    height: 35px;
+                    width: 40%;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin: 15px auto auto auto;
+                    
+                }
+                #sbutt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                .title{
+                    margin-top: 100px;
+                    text-align: center;
+                    height: 75px;
+                    font-weight: 100;
+                    font-size: 55px;
+                    min-width: 900px;
+                }
+                #name{
+                    text-align: center;
+                    width: 10%;
+                }
+                span{
+                    margin-left: 50px;
+                    margin-top: 10px;
+                }
+                a{
+                    color: white;
+                }
+                #forgotpass{
+                    margin-top: 0px;;
+                }
+                p{
+                    text-align: center;
+                    margin-bottom: 0;
+                }
+                @media screen and (orientation: portrait) {
+                    #container{
+                        width: 80%;
+                    }
+                    #sbutt{
+                        font-size: 30px;
+                        height: 3vh;
+                        width: 40%;
+                    }
+                    body{
+                        font-size: 20px;
+                    }
+                    p{
+                        font-size: 30px;
+                    }
+                    #user{
+                        width: 70%;
+                        font-size: 30px;
+                    }
+                    #pass{
+                        width: 70%;
+                        font-size: 30px;
+                    }
+                    #email{
+                        width: 70%;
+                        font-size: 30px;
+                    }
+                    #cpass{
+                        width: 70%;
+                        font-size: 30px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a href = "login.html">LOG IN</a>
+            </div>
+            <h1 class = "trans title">Welcome to The Debate Center.</h1>
+            <div  class = "trans" id = "container">
+                <br>
+                <form id = "signup" onsubmit="return validateForm()" method="post" action="signup">
+                    <input placeholder="Email address" id ="email" type = "email" name = "email" class = "inptext" required>
+                    <input placeholder="Username" id = "user" type="text" name = "user" class = "inptext" required>
+                    <input placeholder="Password" id = "pass" type="password" name = "pass" class = "inptext" required>
+                    <input placeholder="Confirm password" id = "cpass" type= "password" name = "cpass" class = "inptext" required>
+                    <input id = "sbutt" type = "submit" value = "Sign up">
+                </form>
+                <p>Already have an account? <a href = "login.html">Log in</a></p>
+            </div>
+        </body>
+        <script>
+            function validateForm(){
+                var usr =document.getElementById("user").value;
+                var pass = document.getElementById("pass").value;
+                var cpass = document.getElementById("cpass").value;
+                var check = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_ ';
+                for(var i=0;i<usr.length;i++){
+                    if(check.indexOf(usr.toUpperCase().charAt(i))>-1){
+                    }
+                    else{
+                        window.alert("Your username can only contain letters, digits and underscores");
+                        return false;
+                    }
+                }
+                if(pass!==cpass){
+                    alert("The passwords you entered don't match.");
+                    return false;
+                }
+                if(pass.length<8){
+                    alert("Your password must be at least 8 characters long");  
+                    return false;
+                    
+                }
+                const xhr = new XMLHttpRequest();
+                const url = 'validate?name=' + usr +'&email=' + document.getElementById("email").value;
+                xhr.responseType = 'Text';
+                xhr.onreadystatechange = () => {
+                    if(xhr.readyState===XMLHttpRequest.DONE){
+                        if(xhr.response === 'eu'){
+                            alert("A user already exists with this username, please pick another one.");
+                            return false;
+                        }
+                        if(xhr.response === 'ee'){
+                            window.alert("A user already exists with this email address, head over to the login page.");
+                            return false;
+                        }
+                        else{
+                            document.getElementById("signup").submit();
+                        }
+                    }
+                };
+                xhr.open('GET', url);
+                xhr.send();
+                return false;
+            }
+        </script>
+    </html>

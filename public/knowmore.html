@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <script src=standard.js></script>
+            <title>Know More</title>
+            <style>
+                .title h2{
+                    font-family: Avenir;
+                    text-align: center;
+                    margin-top: 3.64vh;
+                    font-size: 30px;
+                }
+                .sidebar{
+                    display: inline-block;
+                    width:25%;
+                    border-radius: 1.215vh;
+                    height: 83.5vh;
+                    float: left;
+                }
+                .sidebar h2{
+                    border-bottom: 0.364vh;
+                    border-bottom-width: : medium;
+                    border-bottom-color: black;
+                    border-bottom-style: solid;
+                }
+                .contain{
+                    border-radius: 1.215vh;
+                    display: block;
+                    width: 74%;
+                    float: right;
+                    height: 85vh;
+                    overflow: scroll;
+                }
+                h2{
+                    text-align: center;
+                    font-size:30px;
+                    font-weight: 500;
+                }
+                #Listcontainer{
+                    height: 85vh;
+                    margin: 0;
+                }
+                #Listcontainer li{
+                    font-size: 25px;
+                    margin: 0.121vh;
+                    width: 90%;
+                    list-style-position: inside;
+                }
+                #Listcontainer li:hover{
+                    background-color: rgba(0,0,0,0.7);
+                    color: white;
+                    backface-visibility: visible;
+                    overflow: visible;
+                }
+                .content{   
+                    font-size: 20px;
+                    overflow-x: hidden;
+                    margin-bottom: 10px;
+                }
+                .content p{
+                    font-size: 20px;
+                    text-indent: 100px;
+                    margin-left: 5px;
+                }
+                ol{
+                    margin: 1.215vh 0 1.215vh 0;
+                }
+                @media screen and (orientation: portrait) {
+                    .sidebar{
+                        visibility: hidden;
+                        width: 0;
+                    }
+                    .contain{
+                        width: 100%;
+                    }
+                }
+            </style>
+        <body onload="load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a href = "submit.html">SUBMIT</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <div class = "trans title">
+                <h2>Know More</h2>
+            </div>
+            <div class = "trans sidebar">
+                <div id = "Listcontainer">
+                    <ol id = "list">
+                        <li><a href = "#Goal">Our Goal</a></li>
+                        <li><a href = "#HIW">How it works</a></li>
+                        <li><a href = "#Format">Format of Articles</a></li>
+                        <li><a href = "#Guidelines">Guidelines</a></li>
+                        <li><a href = "#Founders">Founder</a></li>
+                    </ol>
+                </div>
+            </div>
+            <div class = "contain">
+                <div id = "Goal" class = "trans content">
+                    <h2>Our goal</h2>
+                    <p>Changes in the past have never been easy. Democracy in the United States of America and France required the American and French revolution respectively, accepting the heliocentric model of the universe first required Galileo to be imprisoned by the Church, and Martin Luther's writing, '95 theses', that led the reformation of the church was banned and he was declared a 'convicted heretic'. Our goal through this website is to allow these great changes to be made easily without fear of persecution. </p>
+                </div>
+                <div id = "HIW" class = "trans content">
+                    <h2>How it works</h2>
+                    <ol>
+                    <li >The system, more or less, is as follows - 
+                    <ol>
+                        <li>First, you have to either <a href = signup.html>create an account</a> or <a href = login.html>login</a>.</li>
+                        <li>Then, you can choose to <a href = submit.html>submit an article</a> by going to the Articles page and clicking submit in the top-right corner. </li>
+                        <li>You can read articles by going to the <a href = Articles.html>Articles</a> page.</li>
+                        <li>Finally, you can view debates by either directly going directly to the <a href = debate.html>Debate</a> page or reading an article and clicking on the debate button next to it.</li>
+                        <li>Anyone can read articles and debates but you have to be logged in to actually submit or debate an article.</li>
+                    </ol>
+                    </li>
+                    <li>You can write an article in order to express your opinion in detail. Refer to the <a href = "#Format">format of articles</a>.
+                    </li>
+                    <li>The most important aspect in promoting acceptance of new ideas is dialog. This is where the debate section of the page comes in. If anyone wants to contradict the ideas that you've set forth in your article, they can 'argue against' it. Once they write their argument against your idea, you're both taken to a tabular debate section. You can both keep on debating and placing forth your arguments in a tabular form. Simultaneously, users will be viewing and voting on which side has made a more convincing argument.</li>
+                </ol>
+                </div>
+                <div id = "Format" class = "trans content">
+                    <h2>Format of Articles</h2>
+                    <p>Given the nature of the website, each article should have three components: 'Title', 'Thesis', and 'Content'. The title must be directly relevant to the article, and articles with exaggerated titles to attract readers will have their titles changed, or will be deleted. The thesis is the central claim that the author is making in the article, and the author must make the case for their thesis in the content section of the article. </p>
+                </div>
+                <div id = "Guidelines" class = "trans content">
+                    <h2>Guidelines</h2>
+                    <p>While open and free expression is encouraged on this site, there are a few guidelines for content creation on this site:</p>
+                    <ol>
+                        <li>All members are expected to behave respectfully with fellow debaters at all times.</li>
+                        <li>No personal attacks directed at any writer or debater on this website will be tolerated.</li>
+                        <li>Any content on this website which we believe to be directly inciting violence will be removed and involved members may be banned permanently.</li>
+                        <li>While criticising communities, we encourage memebers to criticise actions or fundemental beliefs of that community rather than insult the competence or character of its members.</li>
+                        <li>If any member is found to be consistently using fake data to support their claims, they will be immediately banned.</li>
+                        <li>The usage of explicit terms is highly discouraged.</li>
+                    </ol>
+                </div>
+                <div id = "Founders" class = "trans content">
+                    <h2>Founder</h2>
+                    <ol>
+                        <li>Aryan Agarwala</li>
+                    </ol>
+                </div>
+            </div>
+        </body>
+    </html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <script src = standard.js></script>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Submit</title>
+            <style>
+                .in{
+                    width: 90%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    font-size: 20px;
+                    -webkit-appearance: none;
+                    border-radius: 1.215vh;
+                }
+                h2{
+                    text-align: center;
+                    font-size:30px;
+                    font-weight: 500;
+                }
+                .sidebar{
+                    display: inline-block;
+                    width:100%;
+                    border-radius: 1.215vh;
+                    height: 20vh;
+                    float: left;
+                    margin-right: 10px;
+                    margin-left: 10px;
+                }
+                .sidebar h2{
+                    border-bottom: 0.364vh;
+                    border-bottom-width: : medium;
+                    border-bottom-color: black;
+                    border-bottom-style: solid;
+                }
+                .title{
+                    margin-top: 100px;
+                    text-align: center;
+                    height: 75px;
+                    font-weight: 100;
+                    font-size: 55px;
+                    overflow: visible;
+                }
+                .butt{
+                    display: inline-block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 1.215vh;
+                    height: 4.86vh;
+                    width: 24.301vh;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin-top: 2.23vh;
+                    bottom: 20px;
+                }
+                .butt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                table{
+                    max-height : 60vh;
+                    width: 98%;
+                    overflow: scroll;
+                    margin-left: 1%;
+                }
+                #Listcontainer{
+                    height: 32.753vh;
+                    margin: 0;
+                    overflow: scroll;
+                    overflow-x: hidden;
+                }
+                #Listcontainer li{
+                    font-size: 20px;
+                    margin: 0.121vh;
+                    width: 90%;
+                    list-style-position: inside;
+                    border-top-style: solid;
+                }
+                #Listcontainer li:hover{
+                    background-color: rgba(0,0,0,0.7);
+                    color: white;
+                    backface-visibility: visible;
+                    overflow: visible;
+                }
+            </style>
+        </head>
+        <body onload="load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+                <a id = "login" href = "login.html">LOG IN</a>
+                <a id = "userh" href = "user.html">USER</a>
+            </div>
+            <h1 id = "username" class = "trans title"></h1>
+            <div class = "trans sidebar">
+                <h2>User</h2>
+                <input class = "in" placeholder="Search" type = "search" height="40px" onkeyup="search()" id = "myInput">
+                <div id = "Listcontainer">
+                    <ol id = "list">
+                    </ol>
+                </div>
+            </div>
+            <table border = "1" class = "trans" id = "tab">
+            </table>
+            <script>
+                //runs on page load
+                function load(){
+                    hidelogin();
+                    get('loaduser', 'Text', function callback(xhr){
+                        const result = xhr.responseText;
+                        document.getElementById("list").innerHTML = result;
+                        renderuser(1);
+                    });
+                }
+                //takes the id of the user as input and renders the user info 
+                function renderuser(id){
+                    get('table?user='+ document.getElementById(id).innerHTML, 'JSON', function callback(xhr){
+                        document.getElementById("username").innerHTML = document.getElementById(id).innerHTML;   
+                        const result = JSON.parse(xhr.response);
+                        var text="<tr><th></th><th>Title</th><th>Likes</th><th>Date added</th><th>Wins</th></tr>"
+                        for(var i = 0;i<result.title.length;i++){
+                            text+="<tr><td>" + (i+1) + "</td>";
+                            text+="<td>" + result.title[i] + "</td>";
+                            text+="<td>" + result.likes[i] + "</td>";
+                            text+="<td>" + result.datea[i].substring(0,10) + "</td>";
+                            text+="<td>" + result.wins[i] + "</td>";
+                            text+="</tr>"
+                        }
+                        document.getElementById("tab").innerHTML = text;
+                        });
+                }
+            </script>
+        </body>
+    </html>

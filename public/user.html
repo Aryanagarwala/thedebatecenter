@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+    <html>
+        <head>
+            <script src = standard.js></script>
+            <link rel="stylesheet" type="text/css" href="framework.css">
+            <title>Submit</title>
+            <style>
+                .title{
+                    margin-top: 100px;
+                    text-align: center;
+                    height: 75px;
+                    font-weight: 100;
+                    font-size: 55px;
+                    overflow: visible;
+                }
+                .butt{
+                    display: inline-block;
+                    background-color: rgba(0,0,0,0.7);
+                    border-color: white;
+                    color: white;
+                    border-radius: 1.215vh;
+                    height: 5%;
+                    width: 30%;
+                    font-family: Avenir;
+                    font-size: 20px;
+                    margin-top: 2.23vh;
+                    bottom: 20px;
+                }
+                .butt:hover{
+                    background-color: white;
+                    color: black;
+                    border-color: black;
+                }
+                table{
+                    max-height : 60vh;
+                    width: 100%;
+                    overflow: scroll;
+                }
+            </style>
+        </head>
+        <body onload="load()">
+            <div class = "transb header">
+                <a href="index.html">HOME</a>
+                <a href="Articles.html">ARTICLES</a>
+                <a href = "knowmore.html">KNOW MORE</a>
+            </div>
+            <h1 id = "username" class = "trans title"></h1>
+            <table border = "1" class = "trans" id = "tab">
+            </table>
+            <input class = "butt" id = "buttusers" type = "button" value = "Search users" onclick="searchusers()">
+            <input class = "butt" id = "butt" type = "button" value = "Log out" onclick="logout()">
+            <script>
+                function load(){
+                    document.getElementById("username").innerHTML = localStorage.getItem('user');
+                    get('table?user=' + localStorage.getItem("user"), 'JSON', function callback(xhr){
+                        const result = JSON.parse(xhr.response);
+                        var text="<tr><th></th><th>Title</th><th>Views</th><th>Likes</th><th>Date added</th><th>Wins</th></tr>"
+                        for(var i = 0;i<result.title.length;i++){
+                            text+="<tr><td>" + (i+1) + "</td>";
+                            text+="<td>" + result.title[i] + "</td>";
+                            text+="<td>" + result.views[i] + "</td>";
+                            text+="<td>" + result.likes[i] + "</td>";
+                            text+="<td>" + result.datea[i].substring(0,10) + "</td>";
+                            text+="<td>" + result.wins[i] + "</td>";
+                            text+="</tr>"
+                        }
+                        document.getElementById("tab").innerHTML = text;
+                    });
+                }
+                function searchusers(){
+                    window.location.href = "\searchusers.html"
+                }
+            </script>
+        </body>
+    </html>
