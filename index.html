@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>The Debate Center</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="freelancer.min.css" rel="stylesheet">
+    <style>
+        body{
+            font-family: Avenir;
+        }
+        h1{
+            font-family: Avenir;
+        }
+        .content{
+            margin-left: 2%;
+            margin-right: 2%;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+    <h1 style = "text-align: center; color: white; background-color: black;margin-bottom: 10px;margin-top: 10px; padding-bottom: 10px; padding-top: 10px;">The Debate Center</h1>
+    <img style = " margin-left: auto; margin-right: auto;display: block;" src = "tdc.png"/>
+<div class = "content">
+    <p style = "margin-top: 20px;">The challenge of creating this website was not only learning all the programming languages and concepts that I required but also to do it and finish programming it within 5 months before finals came along.</p>
+<h1>The Design</h1>
+<p>This part of the website went by quite quickly. I used inline block displays on HTML along with basic CSS to code the majority of this website. I experimented with various different designs - a light background with content placed in white translucent bubbles as opposed to the current dark theme of the website, clean white/black backgrounds with solid colours throughout, solid black and solid white text bubbles. Eventually, I settled upon the current darker theme. I created the dark translucent background by setting the RGB values to (0, 0, 0) and the Alpha channel to 0.7<br><br>I faced the major problem a weeks later when I opened the first version of the website on my other much larger computer and then on my mobile phone. I realised then that I had set the sizes of all the elements of the webpage in terms of pixels which looked great on my 13 inch MacBook Air but didn't adapt well to other sizes. Unfortunately, I didn't have the time initially to learn how to design responsive websites. Thus, I began experimenting with the CSS. First, I changed all the widths to percentages and set the heights in terms of viewport height. Then I dealt with setting minimum width attributes. The next problem was that I had originally set the sidebar on the articles page as 35% of the webpage which was fine on widescreen computers, but looked extremely tacky on smaller screens and portrait displays. Therefore, I made the sidebar hidden by default and expandable using a standard input button which sets the visibility to false and the width to 0. In the know more page, I hid the sidebar on all portrait displays using the orientation tag on CSS.</p>
+
+<h1>The Database</h1>
+<p>My database consists of two tables:<br>
+<ol>
+<li>'Articles'<ol>
+<li>ID - Auto increment integer</li>
+<li>TITLE - Text</li>
+<li>HYP - Large text</li>
+<li>ARG - Large text</li>
+<li>USERA - Text</li>
+<li>Obj - Large text (Default : "{"likers":[],"debatesfor":[],"debatesagainst":[],"likersfor":[],"likersagainst":[]}")</li>
+<li>LIKES - Integer (Default : 0) </li>
+<li>VIEWS - Integer (Default : 0) </li>
+<li>WINS - Integer (Default : 0) </li>	
+<li>DATEA - Timestamp (Default : Current Timestamp) </li>
+</ol>
+</li>
+<br>
+<li>'User Accounts'
+    <ol>
+        <li>ID - Auto increment integer</li>
+        <li>USERNAME - Text</li>
+        <li>PASSWORD - Text</li>
+        <li>EMAIL - Text</li>
+        <li>CODE - Text</li>
+        <li>Obj - Large Text (Default : "{"articles":[]}")</li>
+        <li>CONFIRM - Integer (Default: 0)</li>
+    </ol>
+</li>
+</ol>
+</p>
+<h1>Creating an account</h1>
+<p>Creating an account requires four text fields to be filled:
+    <ol><li>Username</li>
+    <li>Email Address</li>
+    <li>Password</li>
+    <li>Password Confirmation</li></ol>
+    The first challenge was to do some verification.
+    <ol><li>I check whether the username contains any characters other than alphabets, numbers, and underscores.</li>
+        <li>I check whether the 'password' and 'confirm password' fields are inconsistent with each other.</li>
+        <li>I check whether the password contains more than 8 characters</li>
+        <li>I send a GET request to the server to check whether the usernames and emails are already taken. After running a SELECT SQL request on the `User Accounts` database WHERE USERNAME = (Entered username) or EMAIL = (Entered email), I check whether the length of the returned object is at least one. If it is then I send a response confirming that an account already exists with the requested username or email account.</li>
+    </ol>
+    If any of these are true, I return an error using the window.alert(String str) function.
+    <br>
+    Once detail verifications are complete, I send the values to the back end using a POST request and insert the information into the `User Accounts` table. The next job is to check whether the user used a real email account or not. To do this, I create a 10 digit verification code using Math.random(). I set the CODE attribute of that row in the `User Accounts` table to the generated code. I embed this code into a link that sends a GET request directly to my back end. This request contains two parameters - the username and the confirm code. I send this code to the entered email address using nodemailer and return an html page that asks to user to check his email address for a confirm code. Once the user clicks on the link, we set the "CONFIRM" value of that row in the `User Accounts` database to 1. 
+</p>
+<h1>Logging In</h1>
+<p>While logging in, users need to enter their username and their password. I store this username in LocalStorage. I check if the username has any invalid characters or if the password does not meet the length requirement (returning the appropriate error alongside). I then send a GET request to check whether an account exists with that username and has been confirmed (CONFIRM is set to 1 in the `User Accounts` table). If so, I then send a POST request to check whether the entered password matches the database. If so, I send an html page which sets the "logged" element in LocalStorage to true. Now every time a function requires a logged in user, I check whether the "logged" element in LocalStorage is set to 1. If it is, the user account that's logged in is simply the "user" element in LocalStorage.</p>
+<h1>Submitting Articles</h1>
+<p>In article submissions, I first send a GET request checking whether an article already exists with this title (in the 'Articles' database). The first challenge was formatting the text appropriately for HTML display. In order to do this, I simply replaced all open quotes and apostrophes with escape sequences. A major feature of the site was the allow users to track their articles. In order to this faster, I decided to store the names of the articles each user writes in the `User Accounts` database along with their account details. Since I'm using a RDS (MySQL), I needed to find a way to compress this into a single field. I did this using JSON. The 'Obj' attribute in the `User Accounts` database is actually the string representation of a javascript object (using JSON.stringify()). This object contains a single string array called "articles". I simply converted the string into an object using JSON.parse and then pushed the title of the current article into the array. I reconverted this object into a string and updated the database.</p>
+<h1>Handling Articles in the Front End</h1>
+<p>This was probably the most difficult part of the entire process. The sidebar plays a much greater role in this than it seems. Initially, I render the render the content of the article in the main div in the center of the page. The main problem here was to find a way for the user to search through and select articles fast. In order to do this, I first send a GET request that returns a JSON with the TITLE and ID of every article in the database. I then format each article into list tags for an ordered list. The innerHTML of each tag is set as the TITLE, the id of the HTML element increases from 0 to (N-1), there is an attribute called "index" which is set as the ID attribute in the `Articles` table, and there is an attribute called "onlick" which is set to a function called renderarticle(int id) and passes the id of the HTML element as the parameter. The renderarticle function first finds the ID of the article by doing a document.getElementByID search using the id parameter as the search key. Once found, the ID of the article is contained in the index parameter as explained above. I send this ID in a get request to the backend which returns all details of the article. I render the main content of the article in the html page by using document.getElementById().innerHTML. I then had to handle likes and debates. In order to handle likes, I had to create an object to store the users that have already liked the article. I did this using JSON similar to how I stored articles written by users in the `User Accounts` table (explained under 'Submitting Articles'). I searched for whether the user had already liked the article. If so, I changed the "like" button to an "unlike" button. Once a user likes the article, I send his username to the back end which adds it to the JSON in the `Articles` table along with incrementing the likes of the page. In order to maintain speed, instead of reloading the page, I simply increment the number of likes in the front end and change the like button to an unlike button. Similarly, if a user unlikes an article then I simply pop his name from the JSON and I decrement the number of likes.</p>
+<h1>Handling Debates</h1>
+    <p>The way I handle debates is a little restrictive. Users must first search for an article in the earlier section of the site. Once they find an article that they want to debate, they can click the debate button under the article. This stores the ID of the required article in LocalStorage and forwards the webpage to the debate page. The debate for each article is actually stored within the JSON that I wrote about earlier. It is stored as a string under the 'Obj' column in the 'Articles' table. Aside from storing the users that like the article, this object stores:<ol>
+    <li>The users that have liked the side debating for the article</li>
+    <li>The users that have liked the side debating against the article</li>
+    <li>The debates for the article</li>
+    <li>The debate against the article</li>
+    </ol>The debates are actually stored as individual arrays where the first element (index 0) contains the actual argument and the second element contains the username of the debater.<br>When the debate renders, I format the debates in the form of a table where the rows are in the format (debater for) (debate for) (debater against) (debate against).<br>The complicated part of this page is the likes system. I first check whether the user is in any of the likes arrays within the object. If a user has already liked a side of the debate then he<ol><li>Cannot like that side again, and</li><li>Cannot like the other side.</li></ol>Thus, if the user's name is present within an array, I set a LocalStorage item that stores what side the user has already liked. If a user unlikes a side then I decrement the likes, pop his name from the likes array, and set the rules back to default. If a user likes a side then I push his name into the array, increment the likes, and enforce the rules.<br>The user can submit debates at the bottom of the page. The user simply has to type in his argument, choose the side for which he wants to debate (which edits a LocalStorage item at the same time), and click submit. The user also cannot debate for both sides. I first verify that the user has not already debate for the other side by checking whether his username is present in the table that stores the debaters. If it isn't then I sent a POST request. In the back end I format the text appropriately and store it in the Obj column in the Articles table. </p>
+    </div>
+<!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <div class="row">
+
+        <!-- Footer Location -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Contact Us</h4>
+          <p class="lead mb-0">thedebatecenter.com@gmail.com
+            <br>+91 8860756594</p>
+        </div>
+        <!-- Footer About Text -->
+        <div class="col-lg-4">
+          <h4 class="text-uppercase mb-4">The Debate Center</h4>
+            <p>
+            <a href="http://thedebatecenter.com">The Debate Center</a> is a free online platform for open expression of socio-political ideas.</p>
+        </div>
+            <!-- Footer Location -->
+        <div class="col-lg-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Created By</h4>
+          <p class="lead mb-0">Aryan Agarwala</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="copyright py-4 text-center text-white">
+    <div class="container">
+      <small>Copyright &copy; The Debate Center 2019</small>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+  <div class="scroll-to-top d-lg-none position-fixed ">
+    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact Form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/freelancer.min.js"></script>
+
+</body>
+
+</html>
